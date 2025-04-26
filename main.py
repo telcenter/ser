@@ -24,12 +24,13 @@ def predict_emotion(audio_path, model):
 def main():
     start_time = time.time()
     # model = create_model('./model_weight/best_model1_weights.h5')
-    model = load_model('./model_weight/CNN_model.json','./model_weight/best_model1_weights.h5')
+    model = load_model('./CNN_model.json','./model_weight/best_model1_weights.h5')
     audio_path = './test_data/03-01-05-02-01-02-06.wav'
     emotion = predict_emotion(audio_path, model)
     print(f"Predicted emotion: {emotion}")
     end_time = time.time()
     print(f"Time taken: {end_time - start_time:.2f} seconds")
+
 
 if __name__ == "__main__":
     main()
