@@ -59,17 +59,14 @@ def create_model(weights_path):
     
     return model
 def load_model(model_path, weights_path):
-    json_file = open(model_path, 'r')
-    loaded_model_json = json_file.read()
-    json_file.close()
-    model = model_from_json(loaded_model_json)
-    if not os.path.exists(weights_path):
-        print(f" File not found: {weights_path}")
-    else:
-        try:
-            model.load_weights(weights_path)
-            print("Weights loaded successfully!")
-        except Exception as e:
-            print(f" Error loading weights: {e}")
+    with open(model_path, 'r') as json_file:
+        loaded_model_json = json_file.read()
+
+    # Pass 'Sequential' as a custom object
+    model = model_from_json(loaded_model_json, custom_objects={'Sequential': Sequential})
+
+    # Load weights into the model
+    model.load_weights(weights_path)
+    print("Loaded model from disk")
     return model
 export = create_model, load_model
