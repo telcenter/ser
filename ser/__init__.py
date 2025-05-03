@@ -1,9 +1,7 @@
-from model import load_model #, create_model
-from ser.extract_features import get_predict_feat
-from ser.encoder import create_encoder
+from .model import load_model #, create_model
+from .extract_features import get_predict_feat
+from .encoder import create_encoder
 import numpy as np
-# from sklearn.preprocessing import StandardScaler, LabelEncoder
-# import os
 import time
 import logging
 
