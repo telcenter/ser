@@ -32,7 +32,7 @@ cần cài đặt `cuda-toolkit` và `cudnn`.
 Chạy lệnh sau để cài đặt tất cả các thư viện cần thiết:
 
 ```sh
-pip install -r requirements.txt
+pip install .
 ```
 
 ### 2. Tải trọng số (model weight)
