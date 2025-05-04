@@ -7,6 +7,7 @@
     - [1. Cài đặt thư viện](#1-cài-đặt-thư-viện)
     - [2. Tải trọng số (model weight)](#2-tải-trọng-số-model-weight)
     - [3. Chạy mô hình](#3-chạy-mô-hình)
+  - [Using as a Library](#using-as-a-library)
   - [Confusion Matrix](#confusion-matrix)
   - [Credit](#credit)
 
@@ -31,7 +32,7 @@ cần cài đặt `cuda-toolkit` và `cudnn`.
 Chạy lệnh sau để cài đặt tất cả các thư viện cần thiết:
 
 ```sh
-pip install -r requirements.txt
+pip install .
 ```
 
 ### 2. Tải trọng số (model weight)
@@ -40,14 +41,14 @@ Quy ước `$PROJECT_ROOT/` là thư mục gốc của dự án.
 
 - **Cách 1:**
   - Tạo thư mục `$PROJECT_ROOT/model_weight`
-  - Truy cập link sau: [SER](https://www.kaggle.com/datasets/nvnhat04/ser-model)
-  - Tải về toàn bộ các file trọng số (weights) từ phần Output của notebook vào thư mục `$PROJECT_ROOT/model_weight` vừa tạo.
+  - Truy cập link sau: <https://www.kaggle.com/datasets/nvnhat04/ser-model>
+  - Tải về toàn bộ các file vào thư mục `$PROJECT_ROOT/model_weight` vừa tạo. (Có thể tải file zip sau đó giải nén vào thư mục vừa tạo.)
 
 - **Cách 2:** Sử dụng [Kaggle CLI](https://github.com/Kaggle/kaggle-api/blob/main/docs/README.md):
 
     ```sh
     cd $PROJECT_ROOT
-    kaggle kernels output mostafaabdlhamed/speech-emotion-recognition-97-25-accuracy -p ./model_weight
+    kaggle datasets download nvnhat04/ser-model --unzip -p ./model_weight
     ```
 
 ### 3. Chạy mô hình
@@ -56,6 +57,34 @@ Chạy lệnh sau để thực thi mô hình:
 
 ```sh
 python main.py
+```
+
+## Using as a Library
+
+```sh
+pip install git+https://github.com/telcenter/ser.git@main
+```
+
+Still needs to download the weights as shown above.
+
+Example usage:
+
+```python
+from ser import SERModel
+
+def main():
+    model = SERModel(
+        # Where did you download the weights to? Then specify the
+        # paths accordingly.
+        model_path='./model_weight/CNN_model.json',
+        weights_path='./model_weight/best_model1_weights.h5'
+    )
+    audio_path = './test_data/surprise.wav'
+    emotion = model.predict_emotion_from_wav_file(audio_path)
+    print(f"Predicted emotion: {emotion}")
+
+if __name__ == "__main__":
+    main()
 ```
 
 ## Confusion Matrix

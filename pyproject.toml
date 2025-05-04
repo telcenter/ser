@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "telcenter-ser"
+version = "0.1.0"
+description = "Speech Emotion Recognition for telcenter"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+    { name = "Nguyen Van Nhat", email = "nvnhat04324@gmail.com" },
+    { name = "Vu Tung Lam", email = "vutunglaminfo@gmail.com" },
+]
+dependencies = ["librosa==0.11.0", "tensorflow==2.19.0"]
+
+[tool.setuptools]
+packages = ["ser"]

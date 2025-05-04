@@ -6,3 +6,6 @@ pyvenv.cfg
 __pycache__/
 .venv/
 venv/
+*.egg
+*.egg-info/
+*.whl
