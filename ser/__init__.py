@@ -4,16 +4,7 @@ from .encoder import create_encoder
 import numpy as np
 import time
 import logging
-
-# emotion_map = {
-#     0: 'neutral',
-#     1: 'calm',
-#     2: 'happy',
-#     3: 'sad', 
-#     4: 'angry',
-#     5: 'fear',
-#     6: 'disgust'
-# }
+from typing import Literal
 
 class SERModel:
     def __init__(self, model_path: str, weights_path: str):
@@ -25,7 +16,7 @@ class SERModel:
         self.model = load_model(model_path, weights_path)
         self.encoder = create_encoder()
 
-    def predict_emotion_from_wav_file(self, wav_file_path: str):
+    def predict_emotion_from_wav_file(self, wav_file_path: str) -> Literal['positive', 'negative']:
         start_time = time.time()
         try:
             res = get_predict_feat(wav_file_path)
@@ -34,7 +25,17 @@ class SERModel:
             y_pred = self.encoder.inverse_transform(predictions)
             inference_result = y_pred[0][0]
             logging.info(f"SER: inference result: {inference_result}")
-            return inference_result
+
+            if inference_result in ['angry', 'disgust', 'fear', 'sad']:
+                logging.info(f"SER: normalization: negative")
+                return 'negative'
+            elif inference_result in ['happy', 'surprise', 'neutral', 'calm']:
+                logging.info(f"SER: normalization: positive")
+                return 'positive'
+            else:
+                logging.info(f"SER: normalization: value out of range : {inference_result}")
+                logging.info(f"SER: normalization: falling back to    : negative")
+                return 'negative'
         finally:
             end_time = time.time()
             logging.info(f"SER: inference time: {end_time - start_time:.2f} seconds")
